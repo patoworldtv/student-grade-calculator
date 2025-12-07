@@ -7,7 +7,7 @@
       "request": "launch",
       "args": [],
       "cwd": "/Users/wande/Downloads/student-grade-calculator/src",
-      "program": "/Users/wande/Downloads/student-grade-calculator/src/build/Debug/outDebug"
+      "program": "/Users/wande/Downloads/student-grade-calculator/v0.1/build/Debug/outDebug"
     }
   ]
 }
