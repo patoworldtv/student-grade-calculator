@@ -3,7 +3,7 @@
     {
       "name": "Mac",
       "includePath": ["${workspaceFolder}/**"],
-      "compilerPath": "/usr/bin/clang++",
+      "compilerPath": "/v0.1/bin/clang++",
       "cStandard": "c11",
       "cppStandard": "c++17",
       "intelliSenseMode": "macos-clang-x64"
