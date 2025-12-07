@@ -15,7 +15,7 @@ Final = 0.4 * Average(Homework) + 0.6 * Exam
 Final = 0.4 * Median(Homework) + 0.6 * Exam
 
 # Files
-## src/Person.h — class declaration
-## src/Person.cpp — class implementation (rule of three, calculations, IO)
-## src/main.cpp — program entry, user interaction
+## v0.1/Person.h — class declaration
+## v0.1/Person.cpp — class implementation (rule of three, calculations, IO)
+## v0.1/main.cpp — program entry, user interaction
 ## Students.txt — example input file format
