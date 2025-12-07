@@ -3,7 +3,7 @@
     {
       "type": "cppbuild",
       "label": "C/C++: clang build active file",
-      "command": "/usr/bin/clang",
+      "command": "/v0.1/bin/clang",
       "args": [
         "-fcolor-diagnostics",
         "-fansi-escape-codes",
@@ -23,7 +23,7 @@
     {
       "type": "cppbuild",
       "label": "C/C++: g++ build active file",
-      "command": "/usr/bin/g++",
+      "command": "/v0.1/bin/g++",
       "args": [
         "-fdiagnostics-color=always",
         "-g",
@@ -39,7 +39,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "detail": "compiler: /usr/bin/g++"
+      "detail": "compiler: /v0.1/bin/g++"
     }
   ],
   "version": "2.0.0"
