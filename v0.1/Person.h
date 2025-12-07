@@ -18,8 +18,8 @@ public:
     Person(std::string n, std::string s, const std::vector<int>& hw, int ex);
 
     // Rule of Three
-    Person(const Person& other);            // constructor
-    Person& operator=(const Person& other); // assignment
+    Person(const Person& other);            // copy constructor
+    Person& operator=(const Person& other); // assignment operator
     ~Person();                              // destructor
 
     // Input & Output
@@ -33,10 +33,10 @@ public:
     double finalMed() const;
 
     // Getters
-   std::string getName() const { return name; }
-   std::string getSurname() const { return surname; }
-   std::vector<int> getHomework() const { return homework; } 
-   int getExam() const { return exam; }                       
+    std::string getName() const { return name; }
+    std::string getSurname() const { return surname; }
+    std::vector<int> getHomework() const { return homework; }
+    int getExam() const { return exam; }
 };
 
 #endif

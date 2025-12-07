@@ -8,12 +8,12 @@ Person::Person() : name(""), surname(""), exam(0) {}
 Person::Person(std::string n, std::string s, const std::vector<int>& hw, int ex)
     : name(n), surname(s), homework(hw), exam(ex) {}
 
-// Constructor
+// Copy constructor
 Person::Person(const Person& other)
     : name(other.name), surname(other.surname),
       homework(other.homework), exam(other.exam) {}
 
-// Assignment
+// Assignment operator
 Person& Person::operator=(const Person& other) {
     if (this != &other) {
         name = other.name;
@@ -33,7 +33,6 @@ std::istream& operator>>(std::istream& in, Person& p) {
     int value;
     in >> p.name >> p.surname;
 
-    // Read all homework until exam (last number)
     std::vector<int> data;
     while (in >> value) data.push_back(value);
 
@@ -57,7 +56,9 @@ std::ostream& operator<<(std::ostream& out, const Person& p) {
 
 double Person::avg() const {
     if (homework.empty()) return 0;
-    return (double) std::accumulate(homework.begin(), homework.end(), 0) / homework.size();
+    return static_cast<double>(
+        std::accumulate(homework.begin(), homework.end(), 0)
+    ) / homework.size();
 }
 
 double Person::median() const {

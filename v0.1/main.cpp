@@ -19,29 +19,43 @@ void printMenu() {
 }
 
 void loadFromFile(std::vector<Person>& students) {
-    std::string fileName;
-    std::cout << "Enter file path (example: data/students10000.txt): ";
-    std::cin >> fileName;
+    std::string folder = "Students.txt";
 
-    std::ifstream file(fileName);
-    if (!file.is_open()) {
-        std::cout << "FAILED: Cannot open " << fileName << "\n";
+    if (!std::filesystem::exists(folder)) {
+        std::cout << "FAILED: Folder \"" << folder << "\" does not exist.\n";
         return;
     }
 
-    Person temp;
-    std::string line;
-    students.clear(); // To remove old data before loading new
+    students.clear();
 
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        ss >> temp;
-        students.push_back(temp);
+    for (const auto& entry : std::filesystem::directory_iterator(folder)) {
+        if (!entry.is_regular_file()) continue;
+
+        std::string fileName = entry.path().string();
+        if (fileName.find(".txt") == std::string::npos) continue;
+
+        std::ifstream file(fileName);
+        if (!file.is_open()) {
+            std::cout << "FAILED: Cannot open " << fileName << "\n";
+            continue;
+        }
+
+        Person temp;
+        std::string line;
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            ss >> temp;
+            students.push_back(temp);
+        }
+
+        std::cout << "Loaded: " << fileName << "\n";
     }
 
-    std::cout << "SUCCESS: Loaded data from " << fileName << "\n";
+    if (students.empty()) {
+        std::cout << "No student data found in \"" << folder << "\".\n";
+        return;
+    }
 
-    // PRINT STUDENTS IMMEDIATELY
     std::cout << "\n--- Loaded Students ---\n";
     std::cout << std::left << std::setw(15) << "Name"
               << std::setw(15) << "Surname"
@@ -57,7 +71,6 @@ void loadFromFile(std::vector<Person>& students) {
                   << "\n";
     }
 }
-
 
 void manualEntry(std::vector<Person>& students) {
     std::cin.ignore();
@@ -99,42 +112,27 @@ void manualEntry(std::vector<Person>& students) {
     std::cout << "\nSUCCESS: Manual data added.\n";
 }
 
-std::vector<Person> loadAllStudentFiles(const std::string& folder) {
+void displayHighLowFromAllFiles(const std::string& folder) {
     std::vector<Person> students;
-
-    // SAFETY CHECK — prevents crash
-    if (!std::filesystem::exists(folder)) {
-        std::cout << "ERROR: Folder \"" << folder << "\" does not exist.\n";
-        return students;
-    }
 
     for (const auto& entry : std::filesystem::directory_iterator(folder)) {
         if (!entry.is_regular_file()) continue;
 
         std::string fileName = entry.path().string();
+        if (fileName.find(".txt") == std::string::npos) continue;
 
-        if (fileName.find("students") != std::string::npos &&
-            fileName.find(".txt") != std::string::npos) 
-        {
-            std::ifstream file(fileName);
-            if (!file.is_open()) continue;
+        std::ifstream file(fileName);
+        if (!file.is_open()) continue;
 
-            Person temp;
-            std::string line;
-            while (std::getline(file, line)) {
-                std::stringstream ss(line);
-                ss >> temp;
-                students.push_back(temp);
-            }
-
-            std::cout << "Loaded: " << fileName << "\n";
+        Person temp;
+        std::string line;
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            ss >> temp;
+            students.push_back(temp);
         }
     }
-    return students;
-}
 
-void displayHighLowFromAllFiles(const std::string& folder) {
-    auto students = loadAllStudentFiles(folder);
     if (students.empty()) {
         std::cout << "No valid student files found in \"" << folder << "\".\n";
         return;
@@ -146,8 +144,8 @@ void displayHighLowFromAllFiles(const std::string& folder) {
     auto min_student = *std::min_element(students.begin(), students.end(),
         [](const Person& a, const Person& b) { return a.finalAvg() < b.finalAvg(); });
 
-    std::cout << "\nHighest Score: " << max_student.getName() << " " 
-              << max_student.getSurname() << " (" 
+    std::cout << "\nHighest Score: " << max_student.getName() << " "
+              << max_student.getSurname() << " ("
               << std::fixed << std::setprecision(2) << max_student.finalAvg() << ")\n";
 
     std::cout << "Lowest Score: " << min_student.getName() << " "
@@ -158,7 +156,26 @@ void displayHighLowFromAllFiles(const std::string& folder) {
 }
 
 void showRandomStudentFromAllFiles(const std::string& folder) {
-    auto students = loadAllStudentFiles(folder);
+    std::vector<Person> students;
+
+    for (const auto& entry : std::filesystem::directory_iterator(folder)) {
+        if (!entry.is_regular_file()) continue;
+
+        std::string fileName = entry.path().string();
+        if (fileName.find(".txt") == std::string::npos) continue;
+
+        std::ifstream file(fileName);
+        if (!file.is_open()) continue;
+
+        Person temp;
+        std::string line;
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            ss >> temp;
+            students.push_back(temp);
+        }
+    }
+
     if (students.empty()) {
         std::cout << "No valid student files found in \"" << folder << "\".\n";
         return;
@@ -197,8 +214,8 @@ int main() {
         switch (choice) {
             case 1: loadFromFile(students); break;
             case 2: manualEntry(students); break;
-            case 3: displayHighLowFromAllFiles("data"); break;
-            case 4: showRandomStudentFromAllFiles("data"); break;
+            case 3: displayHighLowFromAllFiles("Students.txt"); break;
+            case 4: showRandomStudentFromAllFiles("Students.txt"); break;
             case 5:
                 std::cout << "Goodbye!\n";
                 return 0;
