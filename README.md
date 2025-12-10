@@ -1,4 +1,4 @@
-# Student Grade Calculator (v0.1)
+# Student Grade Calculator (v0.1) (v0.2) (v0.25)
 
 Small C++ console application for storing students' homework and exam results
 and calculating their final grade using either an average or a median of homework
@@ -19,3 +19,6 @@ Final = 0.4 * Median(Homework) + 0.6 * Exam
 ## v0.1/Person.cpp — class implementation (rule of three, calculations, IO)
 ## v0.1/main.cpp — program entry, user interaction
 ## Students.txt — example input file format
+
+## to run all version of the student-grade-calculator
+./student-grade-calculator
