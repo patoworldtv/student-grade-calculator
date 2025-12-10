@@ -1,0 +1,73 @@
+#include "Person.h"
+#include <algorithm>
+#include <numeric>
+#include <sstream>
+
+Person::Person() : name(""), surname(""), homework(), exam(0) {}
+Person::Person(std::string n, std::string s, const std::vector<int>& hw, int ex)
+    : name(std::move(n)), surname(std::move(s)), homework(hw), exam(ex) {}
+
+Person::Person(const Person& other)
+    : name(other.name), surname(other.surname), homework(other.homework), exam(other.exam) {}
+
+Person& Person::operator=(const Person& other) {
+    if (this != &other) {
+        name = other.name;
+        surname = other.surname;
+        homework = other.homework;
+        exam = other.exam;
+    }
+    return *this;
+}
+
+Person::~Person() {}
+
+std::istream& operator>>(std::istream& in, Person& p) {
+    std::string line;
+    if (!std::getline(in, line)) return in;
+    if (line.empty()) return in;
+
+    std::istringstream ss(line);
+    ss >> p.name >> p.surname;
+    p.homework.clear();
+    p.exam = 0;
+    int val;
+    std::vector<int> nums;
+    while (ss >> val) nums.push_back(val);
+    if (!nums.empty()) {
+        p.exam = nums.back();
+        nums.pop_back();
+        p.homework = std::move(nums);
+    }
+    return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const Person& p) {
+    out << p.name << " " << p.surname;
+    for (int hw : p.homework) out << " " << hw;
+    out << " " << p.exam;
+    return out;
+}
+
+double Person::avg() const {
+    if (homework.empty()) return 0.0;
+    double s = std::accumulate(homework.begin(), homework.end(), 0.0);
+    return s / static_cast<double>(homework.size());
+}
+
+double Person::median() const {
+    if (homework.empty()) return 0.0;
+    std::vector<int> tmp = homework;
+    std::sort(tmp.begin(), tmp.end());
+    size_t n = tmp.size();
+    if (n % 2 == 0) return (tmp[n/2 - 1] + tmp[n/2]) / 2.0;
+    return tmp[n/2];
+}
+
+double Person::finalAvg() const {
+    return 0.4 * avg() + 0.6 * static_cast<double>(exam);
+}
+
+double Person::finalMed() const {
+    return 0.4 * median() + 0.6 * static_cast<double>(exam);
+}
