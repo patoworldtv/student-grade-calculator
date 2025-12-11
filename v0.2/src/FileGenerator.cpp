@@ -20,20 +20,24 @@ void generateFile(const std::string& outPath, std::uint64_t count, int hwPerStud
     std::uniform_int_distribution<int> grade(0, 10);
 
     for (std::uint64_t i = 1; i <= count; ++i) {
-        out << "Name" << i << " " << "Surname" << i;
-        for (int j = 0; j < hwPerStudent; ++j) out << " " << grade(rng);
+        out << "Name" << i << " Surname" << i;
+        for (int j = 0; j < hwPerStudent; ++j)
+            out << " " << grade(rng);
         out << " " << grade(rng) << "\n";
     }
 
-    out.close();
     std::cout << "Generated: " << outPath << " (" << count << " records)\n";
 }
 
-void generateFilesForCounts(const std::string& folder, const std::vector<std::uint64_t>& counts, int hwPerStudent) {
+void generateFilesForCounts(const std::string& folder,
+                            const std::vector<std::uint64_t>& counts,
+                            int hwPerStudent)
+{
     fs::create_directories(folder);
+
     for (auto c : counts) {
-        std::string fname = folder + "/students_" + std::to_string(c) + ".txt";
-        generateFile(fname, c, hwPerStudent);
+        std::string path = folder + "/students_" + std::to_string(c) + ".txt";
+        generateFile(path, c, hwPerStudent);
     }
 }
 
