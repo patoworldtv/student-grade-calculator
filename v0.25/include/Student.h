@@ -1,8 +1,9 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-// For v0.2 we keep Person as the concrete type. Student is an alias to improve readability.
 #include "Person.h"
+
+// v0.25: keep Student as alias for readability
 using Student = Person;
 
 #endif // STUDENT_H
