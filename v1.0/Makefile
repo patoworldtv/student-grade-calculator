@@ -1,15 +1,9 @@
 CXX      := g++
-CXXFLAGS := -std=c++20 -O2 -Wall -Iinclude
+CXXFLAGS := -std=c++17 -O2 -Wall -Iinclude
 
-SRC := src/Analyzer.cpp \
-       src/Sorter.cpp \
-       src/FileGenerator.cpp \
-       src/ExceptionHandlers.cpp \
-       src/main.cpp \
-       src/Person.cpp
-
+SRC := $(wildcard src/*.cpp)
 OBJ := $(patsubst src/%.cpp, build/%.o, $(SRC))
-TARGET := analyzer
+TARGET := student-grade-calculator
 
 .PHONY: all clean run
 

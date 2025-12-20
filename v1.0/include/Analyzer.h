@@ -2,50 +2,66 @@
 #define ANALYZER_H
 
 #include "Student.h"
-#include <vector>
+#include <cstddef>
 #include <deque>
 #include <list>
 #include <string>
-
-enum class SplitStrategy {
-    COPY,       // Strategy 1
-    INPLACE     // Strategy 2
-};
+#include <vector>
 
 struct PerfResult {
-    double read_ms{};
-    double sort_ms{};
-    double split_ms{};
-    double write_ms{};
-    std::size_t total_students{};
+    double read_ms = 0.0;
+    double sort_ms = 0.0;
+    double split_ms = 0.0;
+    double write_ms = 0.0;
+    double total_ms = 0.0;
+    std::size_t total_students = 0;
+};
+
+enum class SplitStrategy {
+    Strategy1_CopyToTwoContainers = 1,
+    Strategy2_MoveFailAndShrinkBase = 2
+};
+
+enum class PartitionMode {
+    Partition = 1,
+    StablePartition = 2
 };
 
 namespace Analyzer {
 
-// Read
-std::vector<Student> readFromFile(const std::string& filename);
+std::vector<Student> readVectorFromFile(const std::string& filename);
+std::deque<Student>  readDequeFromFile (const std::string& filename);
+std::list<Student>   readListFromFile  (const std::string& filename);
 
-// Write
 void writeToFile(const std::string& filename, const std::vector<Student>& students);
+void writeToFile(const std::string& filename, const std::deque<Student>& students);
+void writeToFile(const std::string& filename, const std::list<Student>& students);
 
-// Strategy 1 & 2 for vector
-PerfResult runVector(const std::string& input,
-                     const std::string& passFile,
-                     const std::string& failFile,
-                     SplitStrategy strategy);
+void printPerf(const std::string& tag, const PerfResult& r);
 
-// same for deque
-PerfResult runDeque(const std::string& input,
-                    const std::string& passFile,
-                    const std::string& failFile,
-                    SplitStrategy strategy);
+PerfResult runVectorPipeline(const std::string& inputFile,
+                             const std::string& outPass,
+                             const std::string& outFail,
+                             SplitStrategy strat,
+                             PartitionMode pmode);
 
-// same for list
-PerfResult runList(const std::string& input,
-                   const std::string& passFile,
-                   const std::string& failFile,
-                   SplitStrategy strategy);
+PerfResult runDequePipeline(const std::string& inputFile,
+                            const std::string& outPass,
+                            const std::string& outFail,
+                            SplitStrategy strat,
+                            PartitionMode pmode);
 
-}
+PerfResult runListPipeline(const std::string& inputFile,
+                           const std::string& outPass,
+                           const std::string& outFail,
+                           SplitStrategy strat,
+                           PartitionMode pmode);
+
+// Demonstrate required algorithms: find/find_if/search on loaded container
+void demoAlgorithmSearch_Vector(const std::vector<Student>& students);
+void demoAlgorithmSearch_Deque(const std::deque<Student>& students);
+void demoAlgorithmSearch_List(const std::list<Student>& students);
+
+} // namespace Analyzer
 
 #endif

@@ -2,8 +2,8 @@
 #include "ExceptionHandlers.h"
 #include <filesystem>
 #include <fstream>
-#include <random>
 #include <iostream>
+#include <random>
 
 namespace fs = std::filesystem;
 
@@ -25,16 +25,18 @@ void generateFile(const std::string& outPath, std::uint64_t count, int hwPerStud
         out << " " << grade(rng) << "\n";
     }
 
-    out.close();
     std::cout << "Generated: " << outPath << " (" << count << " records)\n";
 }
 
-void generateFilesForCounts(const std::string& folder, const std::vector<std::uint64_t>& counts, int hwPerStudent) {
+void generateFilesForCounts(const std::string& folder,
+                            const std::vector<std::uint64_t>& counts,
+                            int hwPerStudent) {
     fs::create_directories(folder);
+
     for (auto c : counts) {
-        std::string fname = folder + "/students_" + std::to_string(c) + ".txt";
-        generateFile(fname, c, hwPerStudent);
+        std::string path = folder + "/students_" + std::to_string(c) + ".txt";
+        generateFile(path, c, hwPerStudent);
     }
 }
 
-} // namespace FileGenerator
+}

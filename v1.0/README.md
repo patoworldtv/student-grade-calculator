@@ -1,9 +1,12 @@
-# Student Analyzer — v1.0
+# Student Grade Calculator — v1.0
 
-This project evaluates performance differences between containers
-(vector, list, deque) using two strategies for separating students
-into passed and failed.
+## Releases
+- **v0.1**: basic calculator, manual input and file input, final(avg/median), print results.
+- **v0.2**: refactoring into headers/sources, classes, exception handling, generator.
+- **v0.25**: performance timing with Vector/Deque/List, split into passed/failed files.
+- **v1.0**: optimized split strategies + <algorithm> usage + full benchmark comparison.
 
-See documentation for full description.
-
-# To Run v1.0 use ./analyzer
+## Build (Make)
+```bash
+make
+./student-grade-calculator

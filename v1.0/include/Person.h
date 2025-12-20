@@ -1,40 +1,47 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include <vector>
-#include <string>
 #include <iostream>
+#include <string>
+#include <vector>
 
 class Person {
 private:
-    std::string name;
-    std::string surname;
-    std::vector<int> homework;
-    int exam{0};
+    std::string name_;
+    std::string surname_;
+    std::vector<int> homework_;
+    int exam_ = 0;
+
+    // cached final average to avoid recomputing during sort comparisons
+    double finalAvgCached_ = -1.0;
 
 public:
-    // Constructors
-    Person() = default;
+    Person();
     Person(std::string n, std::string s, const std::vector<int>& hw, int ex);
 
-    // Rule of zero for special members
-    Person(const Person&) = default;
-    Person& operator=(const Person&) = default;
     ~Person() = default;
+    Person(const Person&) = default;
+    Person(Person&&) noexcept = default;
+    Person& operator=(const Person&) = default;
+    Person& operator=(Person&&) noexcept = default;
 
-    // Stream operators
     friend std::istream& operator>>(std::istream& in, Person& p);
     friend std::ostream& operator<<(std::ostream& out, const Person& p);
 
-    // Grade calculations
     double avg() const;
     double median() const;
     double finalAvg() const;
     double finalMed() const;
 
-    // Accessors
-    const std::string& getName() const { return name; }
-    const std::string& getSurname() const { return surname; }
+    void computeCache();
+    double finalAvgCached() const { return finalAvgCached_; }
+
+    const std::string& getName() const { return name_; }
+    const std::string& getSurname() const { return surname_; }
+    const std::vector<int>& getHomework() const { return homework_; }
+    int getExam() const { return exam_; }
+
+    bool isValidBasic() const { return !name_.empty() && !surname_.empty(); }
 };
 
 #endif

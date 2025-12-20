@@ -1,8 +1,37 @@
-# build artifacts
+# ===============================
+# Build artifacts (Make / CMake)
+# ===============================
 build/
+build_cmake/
 student-grade-calculator
 
-# generated data
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# ===============================
+# Generated data & benchmark outputs
+# ===============================
 data/generated/
+*.txt.pass
+*.txt.fail
+*.pass.txt
+*.fail.txt
 *.passed.txt
 *.failed.txt
+
+# ===============================
+# IDE / Editor junk
+# ===============================
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# ===============================
+# OS junk
+# ===============================
+Thumbs.db

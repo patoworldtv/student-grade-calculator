@@ -1,17 +1,15 @@
 #ifndef SORTER_H
 #define SORTER_H
 
-#include <vector>
-#include <list>
-#include <deque>
 #include "Student.h"
+#include <vector>
+#include <deque>
+#include <list>
 
 namespace Sorter {
-
-void sort(std::vector<Student>& v);
-void sort(std::deque<Student>& d);
-void sort(std::list<Student>& l);
-
+    void sortVectorDesc(std::vector<Student>& v);
+    void sortDequeDesc(std::deque<Student>& d);
+    void sortListDesc(std::list<Student>& l);
 }
 
 #endif
